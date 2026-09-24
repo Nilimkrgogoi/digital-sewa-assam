@@ -4,10 +4,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$db_host = 'db';
-$db_user = 'root';
-$db_pass = '';
-$db_name = 'digital_seva_assam';
+$db_host = 'sql.freedb.tech';
+$db_user = 'u_AcSPiK';
+$db_pass = 'ab4vmlM4Vww1';
+$db_name = 'freedb_yZsuzaP1';
 // SMS Gateway Configuration (e.g., Fast2SMS, Twilio, Textlocal)
 // Insert your SMS provider API key below to dispatch real SMS text messages directly to citizen phones.
 define('SMS_GATEWAY_API_KEY', '');
@@ -421,9 +421,9 @@ function logo_html($link = 'index.php') {
  * Return the site logo HTML for admin pages (one level deep)
  */
 function logo_html_admin($link = 'dashboard.php') {
-    return '<a href="' . $link . '" class="logo" style="color:white;">
-        <img src="../assets/images/logo.jpg" alt="Digital Sewa Assam Logo" class="logo-img" style="border:2px solid rgba(255,255,255,0.3);">
-        <span>Digital Sewa <b>Admin</b></span>
+    return '<a href="' . $link . '" class="logo" style="color:#ffffff; font-weight: 800; text-decoration: none;">
+        <img src="../assets/images/logo.jpg" alt="Digital Sewa Assam Logo" class="logo-img" style="border: 2px solid #38bdf8;">
+        <span style="color: #ffffff; font-size: 19px; font-weight: 800;">Digital Sewa <b style="color: #38bdf8; font-weight: 800;">Admin</b></span>
     </a>';
 }
 

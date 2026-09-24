@@ -1,8 +1,6 @@
 -- Digital Seva Assam - Database Schema and Seed Data
 -- Database: `digital_seva_assam`
 
-CREATE DATABASE IF NOT EXISTS `digital_seva_assam` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `digital_seva_assam`;
 
 -- --------------------------------------------------------
 -- Table structure for `users`

@@ -1260,25 +1260,88 @@ footer {
 /* ================= RESPONSIVE ================= */
 @media (max-width: 860px) {
     .menu-btn {
-        display: block;
+        display: block !important;
+        font-size: 26px !important;
+        background: transparent !important;
+        border: none !important;
+        cursor: pointer !important;
+        line-height: 1 !important;
+        padding: 4px 8px !important;
+        z-index: 1002 !important;
     }
 
+    /* Base mobile nav popup for admin and dark headers */
     nav {
         display: none;
         position: absolute;
         top: 72px;
         left: 0;
         right: 0;
-        padding: 24px;
-        background: #ffffff;
+        padding: 20px 24px;
+        background: #0f172a !important; /* Sleek dark navy blue matching admin header */
         flex-direction: column;
-        border-bottom: 1px solid #e2e8f0;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        gap: 16px;
+        border-bottom: 3px solid #38bdf8;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        gap: 12px;
+        z-index: 1001;
+        align-items: stretch;
     }
 
     nav.open {
-        display: flex;
+        display: flex !important;
+    }
+
+    /* High contrast, bold white text for mobile dropdown links */
+    nav a {
+        color: #ffffff !important; /* Pure solid white */
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        padding: 12px 16px !important;
+        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        text-decoration: none !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px;
+        transition: all 0.2s ease;
+    }
+
+    nav a:hover, nav a:focus, nav a.active {
+        background: #1e293b !important;
+        color: #38bdf8 !important; /* Sky blue text on hover */
+        border-color: #38bdf8 !important;
+    }
+
+    /* Light theme nav container override for public pages with light headers */
+    .header:not([style*="#0f172a"]):not([style*="background: #0f172a"]):not([style*="background:#0f172a"]) nav,
+    header:not([style*="#0f172a"]):not([style*="background: #0f172a"]):not([style*="background:#0f172a"]) nav {
+        background: #ffffff !important;
+        border-bottom: 3px solid var(--primary);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .header:not([style*="#0f172a"]):not([style*="background: #0f172a"]):not([style*="background:#0f172a"]) nav a,
+    header:not([style*="#0f172a"]):not([style*="background: #0f172a"]):not([style*="background:#0f172a"]) nav a {
+        color: #0f172a !important; /* Solid dark text for light header mobile dropdown */
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .header:not([style*="#0f172a"]):not([style*="background: #0f172a"]):not([style*="background:#0f172a"]) nav a:hover {
+        background: #eff6ff !important;
+        color: var(--primary) !important;
+        border-color: #bfdbfe !important;
+    }
+
+    nav a.logout-btn {
+        background: #dc2626 !important;
+        color: #ffffff !important;
+        border: none !important;
+        justify-content: center !important;
+        margin-top: 6px;
+        font-weight: 800 !important;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
     }
 
     .hero-content,

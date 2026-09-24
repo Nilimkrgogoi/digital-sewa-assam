@@ -205,21 +205,19 @@ $recentInquiries = $pdo->query("
 <body>
 
 <!-- ADMIN HEADER -->
-<header class="header" style="background: #0f172a; border-color: #1e293b;">
+<header class="header" style="background: #0f172a; border-bottom: 2px solid #1e293b; padding: 4px 0;">
     <div class="container nav">
         <?= logo_html_admin('dashboard.php') ?>
-
-        <button class="menu-btn" onclick="toggleMenu()" style="color: white;">☰</button>
-
+        <button class="menu-btn" onclick="toggleMenu()" style="color: #ffffff; font-size: 26px;">☰</button>
         <nav id="navbar">
-            <a href="dashboard.php" style="color: #38bdf8; font-weight: 700;">Dashboard</a>
-            <a href="applications.php" style="color: #cbd5e1;">Applications</a>
-            <a href="users.php" style="color: #cbd5e1;">Users</a>
-            <a href="services.php" style="color: #cbd5e1;">Services</a>
-            <a href="settings.php" style="color: #cbd5e1;">⚙️ Settings</a>
-            <a href="change_password.php" style="color: #cbd5e1;">🔐 Change Password</a>
-            <a href="../index.php" target="_blank" style="color: #94a3b8; font-size: 13px;">🌐 Live Site ↗</a>
-            <a href="../logout.php" class="logout-btn">Sign Out</a>
+            <a href="dashboard.php" class="active" style="color: #ffffff !important; background: #0284c7; font-weight: 800; padding: 7px 14px; border-radius: 8px;">Dashboard</a>
+            <a href="applications.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">Applications</a>
+            <a href="users.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">Users</a>
+            <a href="services.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">Services</a>
+            <a href="settings.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">⚙️ Settings</a>
+            <a href="change_password.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">🔐 Change Password</a>
+            <a href="../index.php" target="_blank" style="color: #38bdf8 !important; font-weight: 700; font-size: 13px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); padding: 6px 12px; border-radius: 8px; text-decoration: none;">🌐 Live Site ↗</a>
+            <a href="../logout.php" class="logout-btn" style="background: #dc2626 !important; color: #ffffff !important; font-weight: 800; padding: 7px 16px; border-radius: 8px; text-decoration: none;">Sign Out</a>
         </nav>
     </div>
 </header>

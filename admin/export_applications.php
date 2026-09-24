@@ -38,6 +38,12 @@ if (!empty($utrFilter) && in_array($utrFilter, ['pending', 'verified', 'rejected
     $params[] = $utrFilter;
 }
 
+$applicantFilter = sanitize($_GET['applicant_name'] ?? '');
+if (!empty($applicantFilter)) {
+    $where .= " AND a.full_name = ?";
+    $params[] = $applicantFilter;
+}
+
 $sql = "
     SELECT 
         a.application_id,

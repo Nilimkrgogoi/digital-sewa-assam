@@ -89,9 +89,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // Services list for filter
 $allServices = $pdo->query("SELECT id, service_name FROM services ORDER BY service_name ASC")->fetchAll();
 
+// Distinct Applicants list for dropdown filter
+$allApplicants = $pdo->query("SELECT full_name, MIN(mobile) as mobile, MIN(district) as district, COUNT(*) as app_count FROM applications WHERE full_name IS NOT NULL AND full_name != '' GROUP BY full_name ORDER BY full_name ASC")->fetchAll();
+
 // Build filter query
 $where = ["1=1"];
 $params = [];
+
+$applicantFilter = sanitize($_GET['applicant_name'] ?? '');
+if (!empty($applicantFilter)) {
+    $where[] = "a.full_name = ?";
+    $params[] = $applicantFilter;
+}
 
 $statusFilter = sanitize($_GET['status'] ?? '');
 if (!empty($statusFilter)) {
@@ -237,19 +246,19 @@ try {
 <body>
 
 <!-- ADMIN HEADER -->
-<header class="header" style="background: #0f172a; border-color: #1e293b;">
+<header class="header" style="background: #0f172a; border-bottom: 2px solid #1e293b; padding: 4px 0;">
     <div class="container nav">
         <?= logo_html_admin('dashboard.php') ?>
-        <button class="menu-btn" onclick="toggleMenu()" style="color: white;">☰</button>
+        <button class="menu-btn" onclick="toggleMenu()" style="color: #ffffff; font-size: 26px;">☰</button>
         <nav id="navbar">
-            <a href="dashboard.php" style="color: #cbd5e1;">Dashboard</a>
-            <a href="applications.php" style="color: #38bdf8; font-weight: 700;">Applications</a>
-            <a href="users.php" style="color: #cbd5e1;">Users</a>
-            <a href="services.php" style="color: #cbd5e1;">Services</a>
-            <a href="settings.php" style="color: #cbd5e1;">⚙️ Settings</a>
-            <a href="change_password.php" style="color: #cbd5e1;">🔐 Change Password</a>
-            <a href="../index.php" target="_blank" style="color: #94a3b8; font-size: 13px;">🌐 Live Site ↗</a>
-            <a href="../logout.php" class="logout-btn">Sign Out</a>
+            <a href="dashboard.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">Dashboard</a>
+            <a href="applications.php" class="active" style="color: #ffffff !important; background: #0284c7; font-weight: 800; padding: 7px 14px; border-radius: 8px;">Applications</a>
+            <a href="users.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">Users</a>
+            <a href="services.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">Services</a>
+            <a href="settings.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">⚙️ Settings</a>
+            <a href="change_password.php" style="color: #ffffff !important; font-weight: 700; padding: 7px 12px; border-radius: 8px;">🔐 Change Password</a>
+            <a href="../index.php" target="_blank" style="color: #38bdf8 !important; font-weight: 700; font-size: 13px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); padding: 6px 12px; border-radius: 8px; text-decoration: none;">🌐 Live Site ↗</a>
+            <a href="../logout.php" class="logout-btn" style="background: #dc2626 !important; color: #ffffff !important; font-weight: 800; padding: 7px 16px; border-radius: 8px; text-decoration: none;">Sign Out</a>
         </nav>
     </div>
 </header>
@@ -261,10 +270,10 @@ try {
             <p style="color: #64748b; font-size: 14px;">Review submissions, validate citizen payment UTRs against bank statements, and issue decisions.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&format=csv" class="btn success" style="background: #15803d; font-weight: 700; color: white; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 10px 16px; border-radius: 8px;" title="Export filtered applications to CSV">
+            <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&applicant_name=<?= urlencode($applicantFilter) ?>&format=csv" class="btn success" style="background: #15803d; font-weight: 700; color: white; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 10px 16px; border-radius: 8px;" title="Export filtered applications to CSV">
                 📊 Export (.CSV)
             </a>
-            <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&format=xls" class="btn primary" style="background: #7c3aed; font-weight: 700; color: white; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 10px 16px; border-radius: 8px;" title="Export filtered applications to Excel">
+            <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&applicant_name=<?= urlencode($applicantFilter) ?>&format=xls" class="btn primary" style="background: #7c3aed; font-weight: 700; color: white; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 10px 16px; border-radius: 8px;" title="Export filtered applications to Excel">
                 📑 Export (.XLS)
             </a>
             <span class="badge" style="background: white; border: 1px solid #cbd5e1; color: #0f172a; font-size: 14px;">
@@ -344,7 +353,17 @@ try {
     <div class="content-card" style="margin-bottom: 24px;">
         <form action="applications.php" method="GET" class="filter-bar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
             <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <input type="text" name="search" placeholder="🔍 Search ID, Name, Mobile, District..." value="<?= htmlspecialchars($search) ?>" style="min-width: 240px;">
+                <input type="text" name="search" placeholder="🔍 Search ID, Name, Mobile, District..." value="<?= htmlspecialchars($search) ?>" style="min-width: 220px;">
+
+                <!-- APPLICANT NAME DROPDOWN FILTER -->
+                <select name="applicant_name" onchange="this.form.submit()" style="border: 2px solid #7c3aed; font-weight: 700; background: #faf5ff; color: #5b21b6; min-width: 220px;" title="Select an applicant to view their full submission details">
+                    <option value="">👤 -- All Applicants (A-Z) --</option>
+                    <?php foreach ($allApplicants as $appItem): ?>
+                        <option value="<?= htmlspecialchars($appItem['full_name']) ?>" <?= ($applicantFilter === $appItem['full_name']) ? 'selected' : '' ?>>
+                            👤 <?= htmlspecialchars($appItem['full_name']) ?> (<?= $appItem['app_count'] ?> app<?= $appItem['app_count'] > 1 ? 's' : '' ?>)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
 
                 <select name="status">
                     <option value="">-- All App Statuses --</option>
@@ -379,16 +398,47 @@ try {
                 </select>
 
                 <button type="submit" class="btn primary sm" style="background: #7c3aed;">Apply</button>
-                <?php if (!empty($search) || !empty($statusFilter) || !empty($utrFilter) || $serviceFilter > 0 || !empty($validateUtr)): ?>
+                <?php if (!empty($search) || !empty($statusFilter) || !empty($utrFilter) || !empty($docFilter) || $serviceFilter > 0 || !empty($validateUtr) || !empty($applicantFilter)): ?>
                     <a href="applications.php" class="btn secondary sm">Clear All</a>
                 <?php endif; ?>
             </div>
             <div style="display: flex; gap: 8px;">
-                <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&format=xls" class="btn secondary sm" style="font-weight: 700; text-decoration: none;">
+                <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&applicant_name=<?= urlencode($applicantFilter) ?>&format=xls" class="btn secondary sm" style="font-weight: 700; text-decoration: none;">
                     📊 Quick Export (.XLS)
                 </a>
             </div>
         </form>
+
+        <!-- APPLICANT PROFILE SUMMARY CARD (VISIBLE WHEN AN APPLICANT IS SELECTED) -->
+        <?php if (!empty($applicantFilter) && !empty($applications)): 
+            $firstApp = $applications[0];
+        ?>
+            <div style="margin-top: 18px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #7dd3fc; padding: 18px 22px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 52px; height: 52px; background: #0284c7; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);">
+                        <?= strtoupper(substr($firstApp['full_name'], 0, 1)) ?>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; font-size: 19px; color: #0c4a6e; font-weight: 800;">
+                            👤 Applicant Profile & Submissions: <?= htmlspecialchars($firstApp['full_name']) ?>
+                        </h3>
+                        <div style="font-size: 13px; color: #0369a1; margin-top: 5px; display: flex; gap: 18px; flex-wrap: wrap; font-weight: 600;">
+                            <span>📞 <b>Mobile:</b> <?= htmlspecialchars($firstApp['mobile']) ?></span>
+                            <span>📍 <b>District:</b> <?= htmlspecialchars($firstApp['district'] ?? 'N/A') ?></span>
+                            <span>📋 <b>Total Submissions:</b> <?= count($applications) ?> Application(s)</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="export_applications.php?applicant_name=<?= urlencode($applicantFilter) ?>&format=xls" class="btn success sm" style="background: #16a34a; font-weight: 700; color: white !important; text-decoration: none; padding: 8px 14px; border-radius: 6px;">
+                        📊 Export Applicant Data (.XLS)
+                    </a>
+                    <a href="applications.php" class="btn secondary sm" style="background: white; color: #0369a1; border: 1px solid #7dd3fc; font-weight: 700; text-decoration: none; padding: 8px 14px; border-radius: 6px;">
+                        ✖ Clear Applicant Filter
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
 
         <!-- TABLE -->
         <?php if (empty($applications)): ?>
