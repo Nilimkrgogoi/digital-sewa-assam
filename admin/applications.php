@@ -82,6 +82,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $sep = (strpos($returnUrl, '?') !== false) ? '&' : '?';
             header("Location: " . $returnUrl . $sep . "msg=" . urlencode("✓ Document(s) marked as verified & authentic."));
             exit;
+        } elseif ($action === 'delete_single_document') {
+            $docId = (int)($_POST['document_id'] ?? 0);
+            $appId = (int)($_POST['application_id'] ?? 0);
+            if ($docId > 0) {
+                $stmt = $pdo->prepare("SELECT file_path, document_name FROM application_documents WHERE id = ?");
+                $stmt->execute([$docId]);
+                $doc = $stmt->fetch();
+                if ($doc) {
+                    $filePath = __DIR__ . '/../' . ltrim($doc['file_path'], '/\\');
+                    if (file_exists($filePath) && is_file($filePath)) {
+                        @unlink($filePath);
+                    }
+                    $pdo->prepare("DELETE FROM application_documents WHERE id = ?")->execute([$docId]);
+                    $docName = htmlspecialchars($doc['document_name'] ?? 'Document');
+                    $returnUrl = $_POST['return_url'] ?? 'applications.php';
+                    $sep = (strpos($returnUrl, '?') !== false) ? '&' : '?';
+                    header("Location: " . $returnUrl . $sep . "msg=" . urlencode("🗑 Document file '{$docName}' deleted from server storage to free space."));
+                    exit;
+                }
+            }
+        } elseif ($action === 'delete_app_documents') {
+            $appId = (int)($_POST['application_id'] ?? 0);
+            if ($appId > 0) {
+                $stmt = $pdo->prepare("SELECT file_path FROM application_documents WHERE application_id = ?");
+                $stmt->execute([$appId]);
+                $files = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                
+                $deletedFileCount = 0;
+                foreach ($files as $f) {
+                    if (!empty($f)) {
+                        $fullPath = __DIR__ . '/../' . ltrim($f, '/\\');
+                        if (file_exists($fullPath) && is_file($fullPath)) {
+                            if (@unlink($fullPath)) {
+                                $deletedFileCount++;
+                            }
+                        }
+                    }
+                }
+                $pdo->prepare("DELETE FROM application_documents WHERE application_id = ?")->execute([$appId]);
+                $pdo->prepare("UPDATE applications SET remarks = CONCAT(IFNULL(remarks, ''), IF(remarks IS NULL OR remarks='', '', ' | '), '[Citizen Uploaded Docs Deleted to Free Server Storage]'), updated_at = NOW() WHERE id = ?")->execute([$appId]);
+                
+                $returnUrl = $_POST['return_url'] ?? 'applications.php';
+                $sep = (strpos($returnUrl, '?') !== false) ? '&' : '?';
+                header("Location: " . $returnUrl . $sep . "msg=" . urlencode("🗑 Successfully deleted all uploaded citizen document files ({$deletedFileCount} files removed) to free server storage."));
+                exit;
+            }
+        } elseif ($action === 'purge_completed_docs') {
+            $stmt = $pdo->prepare("
+                SELECT d.id, d.file_path, d.application_id 
+                FROM application_documents d 
+                JOIN applications a ON d.application_id = a.id 
+                WHERE a.status = 'completed'
+            ");
+            $stmt->execute();
+            $completedDocs = $stmt->fetchAll();
+
+            $deletedCount = 0;
+            $appIdsUpdated = [];
+            foreach ($completedDocs as $d) {
+                if (!empty($d['file_path'])) {
+                    $fullPath = __DIR__ . '/../' . ltrim($d['file_path'], '/\\');
+                    if (file_exists($fullPath) && is_file($fullPath)) {
+                        @unlink($fullPath);
+                        $deletedCount++;
+                    }
+                }
+                $appIdsUpdated[$d['application_id']] = true;
+            }
+
+            if (!empty($appIdsUpdated)) {
+                $appIdList = implode(',', array_map('intval', array_keys($appIdsUpdated)));
+                $pdo->exec("DELETE FROM application_documents WHERE application_id IN ($appIdList)");
+                $pdo->exec("UPDATE applications SET remarks = CONCAT(IFNULL(remarks, ''), IF(remarks IS NULL OR remarks='', '', ' | '), '[Uploaded Citizen Docs Cleaned to Free Storage]') WHERE id IN ($appIdList)");
+            }
+
+            $returnUrl = $_POST['return_url'] ?? 'applications.php';
+            $sep = (strpos($returnUrl, '?') !== false) ? '&' : '?';
+            header("Location: " . $returnUrl . $sep . "msg=" . urlencode("🧹 Bulk Storage Cleanup Completed! Permanently deleted {$deletedCount} document file(s) across completed applications to free server disk space."));
+            exit;
         }
     }
 }
@@ -276,6 +355,13 @@ try {
             <a href="export_applications.php?search=<?= urlencode($search) ?>&status=<?= urlencode($statusFilter) ?>&service_id=<?= $serviceFilter ?>&applicant_name=<?= urlencode($applicantFilter) ?>&format=xls" class="btn primary" style="background: #7c3aed; font-weight: 700; color: white; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 10px 16px; border-radius: 8px;" title="Export filtered applications to Excel">
                 📑 Export (.XLS)
             </a>
+            <form method="POST" action="applications.php" style="margin: 0; display: inline-block;" onsubmit="return confirm('🧹 STORAGE CLEANUP CONFIRMATION:\n\nAre you sure you want to permanently delete all uploaded citizen document files for COMPLETED applications to free up server disk space?\n\nThis will remove physical files from server storage while keeping application records and issued certificates intact.');">
+                <input type="hidden" name="action" value="purge_completed_docs">
+                <input type="hidden" name="return_url" value="<?= $currentUrl ?>">
+                <button type="submit" class="btn sm" style="background: #dc2626; color: white; font-weight: 700; padding: 10px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25); border: none; cursor: pointer;" title="Delete uploaded citizen document files for all completed applications to free server storage">
+                    🧹 Purge Completed App Docs
+                </button>
+            </form>
             <span class="badge" style="background: white; border: 1px solid #cbd5e1; color: #0f172a; font-size: 14px;">
                 Total Found: <b><?= count($applications) ?></b>
             </span>
@@ -573,6 +659,15 @@ try {
                                                                 ❌ Flag
                                                             </button>
                                                         <?php endif; ?>
+                                                        <form method="POST" action="applications.php" style="margin: 0; display: inline;" onsubmit="return confirm('Delete physical file & database record for <?= htmlspecialchars(addslashes($d['document_name'] ?? 'document')) ?> to free server storage?');">
+                                                            <input type="hidden" name="action" value="delete_single_document">
+                                                            <input type="hidden" name="document_id" value="<?= $d['id'] ?>">
+                                                            <input type="hidden" name="application_id" value="<?= $app['id'] ?>">
+                                                            <input type="hidden" name="return_url" value="<?= $currentUrl ?>">
+                                                            <button type="submit" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 700; cursor: pointer;" title="Delete document file from server storage to free space">
+                                                                🗑 Del
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             <?php endforeach; ?>
@@ -582,6 +677,15 @@ try {
                                                     📥 Download Document
                                                 </a>
                                             <?php endif; ?>
+
+                                            <form method="POST" action="applications.php" style="margin-top: 4px;" onsubmit="return confirm('⚠️ Are you sure you want to permanently delete ALL uploaded document files for Application #<?= htmlspecialchars(addslashes($app['application_id'])) ?> to free up server storage space?');">
+                                                <input type="hidden" name="action" value="delete_app_documents">
+                                                <input type="hidden" name="application_id" value="<?= $app['id'] ?>">
+                                                <input type="hidden" name="return_url" value="<?= $currentUrl ?>">
+                                                <button type="submit" class="btn sm" style="background: #ef4444; color: white; font-weight: 700; font-size: 11px; padding: 4px 8px; border-radius: 6px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px; border: none; cursor: pointer;" title="Delete all uploaded citizen document files for this application to free disk space">
+                                                    🗑 Delete Docs (Free Space)
+                                                </button>
+                                            </form>
                                         </div>
                                     <?php endif; ?>
                                 </td>
@@ -891,6 +995,13 @@ try {
                 <div class="form-group">
                     <label for="modalRemarks">Official Remarks / Citizen Instructions (Visible in Tracking)</label>
                     <textarea name="remarks" id="modalRemarks" rows="4" placeholder="Enter status explanation, document review feedback, or rejection reasons visible to citizen..."></textarea>
+                </div>
+
+                <div style="background: #fff5f5; border: 1.5px solid #fecaca; padding: 10px 14px; border-radius: 8px; margin-top: 14px; margin-bottom: 14px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #dc2626; cursor: pointer; margin: 0;">
+                        <input type="checkbox" name="delete_user_docs" value="1" style="width: 18px; height: 18px; accent-color: #dc2626;">
+                        <span>🗑 Delete uploaded citizen document files from server disk after updating (frees storage)</span>
+                    </label>
                 </div>
 
                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">

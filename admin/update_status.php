@@ -119,6 +119,31 @@ try {
         }
     }
 
+    // If admin checked delete_user_docs, purge physical uploaded files and DB records for this application
+    if (isset($_POST['delete_user_docs']) && ($_POST['delete_user_docs'] == '1' || $_POST['delete_user_docs'] == 'yes')) {
+        $getAppId = $pdo->prepare("SELECT id FROM applications WHERE id = ? OR application_id = ? LIMIT 1");
+        $getAppId->execute([$appIdentifier, $appIdentifier]);
+        $appRow = $getAppId->fetch();
+        if ($appRow) {
+            $rId = (int)$appRow['id'];
+            $docStmt = $pdo->prepare("SELECT file_path FROM application_documents WHERE application_id = ?");
+            $docStmt->execute([$rId]);
+            $files = $docStmt->fetchAll(PDO::FETCH_COLUMN);
+            foreach ($files as $f) {
+                if (!empty($f)) {
+                    $fullP = __DIR__ . '/../' . ltrim($f, '/\\');
+                    if (file_exists($fullP) && is_file($fullP)) {
+                        @unlink($fullP);
+                    }
+                }
+            }
+            $pdo->prepare("DELETE FROM application_documents WHERE application_id = ?")->execute([$rId]);
+            if (strpos($remarks, '[Uploaded Citizen Docs Cleaned') === false) {
+                $remarks = !empty($remarks) ? ($remarks . " | [Uploaded Citizen Docs Cleaned to Free Server Storage]") : "[Uploaded Citizen Docs Cleaned to Free Server Storage]";
+            }
+        }
+    }
+
     if ($issuedDocPath !== null) {
         $queryParts[] = "issued_document = ?";
         $bindings[] = $issuedDocPath;
