@@ -1,0 +1,8 @@
+# uploads/.htaccess - Secure upload directory
+# Prevent PHP and script execution in this folder
+<FilesMatch "(?i)\.(php|php3|php4|php5|php7|phtml|pl|py|cgi|sh|exe)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+Options -ExecCGI -Indexes

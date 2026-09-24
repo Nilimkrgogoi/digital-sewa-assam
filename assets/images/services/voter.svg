@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="voterBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4338ca"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#voterBg)"/>
+  <!-- Card Base -->
+  <rect x="22" y="24" width="76" height="72" rx="7" fill="#ffffff" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.3))"/>
+  <!-- Top Indian Flag Ribbon on Card -->
+  <rect x="22" y="24" width="76" height="4" rx="2" fill="#f97316"/>
+  <rect x="22" y="28" width="76" height="3" fill="#ffffff"/>
+  <rect x="22" y="31" width="76" height="4" rx="2" fill="#16a34a"/>
+  
+  <text x="60" y="42" fill="#1e1b4b" font-size="6" font-family="Arial, sans-serif" font-weight="900" text-anchor="middle">ELECTION COMMISSION OF INDIA</text>
+  
+  <!-- Photo Box with Inked Finger silhouette -->
+  <rect x="28" y="47" width="22" height="26" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <circle cx="39" cy="56" r="5" fill="#4338ca"/>
+  <path d="M31 71 C31 64 47 64 47 71 Z" fill="#4338ca"/>
+  
+  <!-- Voting Box / Ballot Stamp -->
+  <g transform="translate(56, 47)">
+    <!-- Ballot box icon -->
+    <rect x="4" y="8" width="28" height="20" rx="3" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.2"/>
+    <path d="M12 4 L24 4 L28 8 L8 8 Z" fill="#6366f1"/>
+    <!-- Ballot slot -->
+    <line x1="14" y1="12" x2="22" y2="12" stroke="#312e81" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Checkmark / vote paper -->
+    <path d="M13 2 L23 2 L21 8 L15 8 Z" fill="#10b981"/>
+    <path d="M16 19 L19 22 L24 16" fill="none" stroke="#4f46e5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- EPIC ID Number Bar -->
+  <rect x="28" y="78" width="64" height="11" rx="3" fill="#312e81"/>
+  <text x="60" y="86" fill="#a5b4fc" font-size="6.5" font-family="'Courier New', monospace" font-weight="bold" text-anchor="middle" letter-spacing="1">EPIC VOTER ID</text>
+</svg>

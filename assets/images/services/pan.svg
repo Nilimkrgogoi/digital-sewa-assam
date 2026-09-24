@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="panBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="panCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#panBg)"/>
+  <!-- Card Outline -->
+  <rect x="18" y="26" width="84" height="68" rx="8" fill="url(#panCard)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.2))"/>
+  <!-- Top header bar on card -->
+  <rect x="18" y="26" width="84" height="16" rx="8" fill="#0284c7"/>
+  <rect x="18" y="34" width="84" height="8" fill="#0284c7"/>
+  <text x="60" y="38" fill="#ffffff" font-size="7" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" letter-spacing="1">INCOME TAX DEPT</text>
+  <!-- Photo Box -->
+  <rect x="25" y="47" width="22" height="26" rx="3" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+  <circle cx="36" cy="56" r="5" fill="#64748b"/>
+  <path d="M28 71 C28 64 44 64 44 71 Z" fill="#64748b"/>
+  <!-- Hologram / Chip -->
+  <rect x="52" y="47" width="14" height="11" rx="2" fill="#fbbf24" stroke="#d97706" stroke-width="0.8"/>
+  <line x1="52" y1="52.5" x2="66" y2="52.5" stroke="#d97706" stroke-width="0.6"/>
+  <line x1="59" y1="47" x2="59" y2="58" stroke="#d97706" stroke-width="0.6"/>
+  <!-- Card Text lines -->
+  <rect x="52" y="62" width="44" height="3" rx="1.5" fill="#334155"/>
+  <rect x="52" y="68" width="34" height="3" rx="1.5" fill="#64748b"/>
+  <!-- PAN Number Banner -->
+  <rect x="25" y="78" width="70" height="10" rx="3" fill="#0f172a"/>
+  <text x="60" y="85.5" fill="#38bdf8" font-size="6.5" font-family="'Courier New', monospace" font-weight="bold" text-anchor="middle" letter-spacing="1.2">ABCDE1234F</text>
+</svg>

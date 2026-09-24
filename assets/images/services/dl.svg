@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="dlBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </linearGradient>
+    <linearGradient id="dlCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0fdf4"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#dlBg)"/>
+  <!-- Licence Card -->
+  <rect x="18" y="24" width="84" height="72" rx="7" fill="url(#dlCard)" stroke="#a7f3d0" stroke-width="1.5" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.25))"/>
+  <!-- Card Header Strip -->
+  <rect x="18" y="24" width="84" height="14" rx="7" fill="#047857"/>
+  <rect x="18" y="31" width="84" height="7" fill="#047857"/>
+  <text x="60" y="34" fill="#ffffff" font-size="6" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle">UNION OF INDIA • DRIVING LICENCE</text>
+  
+  <!-- Steering Wheel & Car Icon Motif -->
+  <!-- Photo -->
+  <rect x="25" y="44" width="22" height="26" rx="3" fill="#e2e8f0"/>
+  <circle cx="36" cy="53" r="5" fill="#047857"/>
+  <path d="M28 68 C28 61 44 61 44 68 Z" fill="#047857"/>
+  
+  <!-- Steering wheel graphic -->
+  <g transform="translate(56, 44)">
+    <circle cx="20" cy="14" r="13" fill="none" stroke="#047857" stroke-width="2.8"/>
+    <circle cx="20" cy="14" r="4" fill="#047857"/>
+    <line x1="20" y1="1" x2="20" y2="10" stroke="#047857" stroke-width="2"/>
+    <line x1="8" y1="20" x2="17" y2="16" stroke="#047857" stroke-width="2"/>
+    <line x1="32" y1="20" x2="23" y2="16" stroke="#047857" stroke-width="2"/>
+  </g>
+  
+  <!-- DL Number Banner -->
+  <rect x="25" y="76" width="70" height="12" rx="3" fill="#064e3b"/>
+  <text x="60" y="84.5" fill="#6ee7b7" font-size="6.5" font-family="'Courier New', monospace" font-weight="bold" text-anchor="middle" letter-spacing="1">AS-01-2026-DL</text>
+</svg>

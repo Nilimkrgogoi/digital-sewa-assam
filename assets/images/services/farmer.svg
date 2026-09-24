@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="farmBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#farmBg)"/>
+  <circle cx="60" cy="60" r="48" fill="#f0fdf4"/>
+  <!-- Sun in background -->
+  <circle cx="60" cy="40" r="14" fill="#fde047"/>
+  <!-- Wheat / Rice Paddy Sheaves (Assam Golden Grain) -->
+  <path d="M60 88 C60 55 52 42 42 32 C48 44 48 60 54 88 Z" fill="#ca8a04"/>
+  <path d="M60 88 C60 55 68 42 78 32 C72 44 72 60 66 88 Z" fill="#eab308"/>
+  <path d="M60 88 L60 28" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Grains Left -->
+  <ellipse cx="50" cy="42" rx="4" ry="7" transform="rotate(-30 50 42)" fill="#facc15"/>
+  <ellipse cx="52" cy="56" rx="4" ry="7" transform="rotate(-30 52 56)" fill="#facc15"/>
+  <ellipse cx="54" cy="70" rx="4" ry="7" transform="rotate(-30 54 70)" fill="#facc15"/>
+  <!-- Grains Right -->
+  <ellipse cx="70" cy="42" rx="4" ry="7" transform="rotate(30 70 42)" fill="#facc15"/>
+  <ellipse cx="68" cy="56" rx="4" ry="7" transform="rotate(30 68 56)" fill="#facc15"/>
+  <ellipse cx="66" cy="70" rx="4" ry="7" transform="rotate(30 66 70)" fill="#facc15"/>
+  <!-- Green sprout leaves at base -->
+  <path d="M60 82 C50 78 40 85 36 90 C46 92 56 88 60 82 Z" fill="#22c55e"/>
+  <path d="M60 82 C70 78 80 85 84 90 C74 92 64 88 60 82 Z" fill="#16a34a"/>
+</svg>

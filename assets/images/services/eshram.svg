@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="eshramBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#eshramBg)"/>
+  <!-- Card Background -->
+  <rect x="18" y="26" width="84" height="68" rx="8" fill="url(#cardGrad2)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.2))"/>
+  <!-- Top Indian Saffron/Green stripes on Card -->
+  <rect x="18" y="26" width="84" height="6" rx="3" fill="#f97316"/>
+  <rect x="18" y="32" width="84" height="4" fill="#ffffff"/>
+  <rect x="18" y="36" width="84" height="4" fill="#16a34a"/>
+  <!-- Header Text -->
+  <text x="60" y="46" fill="#9a3412" font-size="7" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" letter-spacing="1">e-SHRAM CARD</text>
+  <!-- Worker Hardhat Icon / Symbol -->
+  <circle cx="36" cy="62" r="12" fill="#ea580c"/>
+  <path d="M28 62 C28 55 44 55 44 62 Z" fill="#ffffff"/>
+  <rect x="26" y="62" width="20" height="3" rx="1.5" fill="#ffffff"/>
+  <!-- Lines representing worker info -->
+  <rect x="54" y="54" width="40" height="3.5" rx="1.5" fill="#334155"/>
+  <rect x="54" y="60" width="32" height="3" rx="1.5" fill="#64748b"/>
+  <rect x="54" y="66" width="36" height="3" rx="1.5" fill="#94a3b8"/>
+  <!-- UAN Number Strip -->
+  <rect x="24" y="75" width="72" height="12" rx="3" fill="#1e293b"/>
+  <text x="60" y="84" fill="#fef08a" font-size="6" font-family="'Courier New', monospace" font-weight="bold" text-anchor="middle" letter-spacing="1.5">UAN: 1234 5678 9012</text>
+</svg>

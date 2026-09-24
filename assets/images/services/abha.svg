@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="abhaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ecfdf5"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#abhaBg)"/>
+  <!-- Card Background -->
+  <rect x="18" y="26" width="84" height="68" rx="8" fill="url(#cardGrad)" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.2))"/>
+  <!-- Top bar -->
+  <rect x="18" y="26" width="84" height="16" rx="8" fill="#059669"/>
+  <rect x="18" y="34" width="84" height="8" fill="#059669"/>
+  <text x="60" y="38" fill="#ffffff" font-size="6.5" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" letter-spacing="1">ABHA HEALTH CARD</text>
+  <!-- Medical Shield / Cross -->
+  <path d="M36 48 C44 48 44 46 44 46 C44 58 36 64 36 64 C36 64 28 58 28 46 C28 46 28 48 36 48 Z" fill="#10b981"/>
+  <rect x="34" y="51" width="4" height="8" fill="#ffffff" rx="1"/>
+  <rect x="32" y="53" width="8" height="4" fill="#ffffff" rx="1"/>
+  <!-- Heartbeat line -->
+  <path d="M52 56 L57 56 L60 50 L63 61 L66 54 L69 58 L72 56 L94 56" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- ABHA ID number text lines -->
+  <rect x="52" y="65" width="40" height="3" rx="1.5" fill="#334155"/>
+  <rect x="52" y="71" width="28" height="3" rx="1.5" fill="#64748b"/>
+  <!-- Bottom Bar with 14 Digit Health ID Tag -->
+  <rect x="24" y="78" width="72" height="11" rx="3" fill="#047857"/>
+  <text x="60" y="86" fill="#ecfdf5" font-size="5.5" font-family="'Courier New', monospace" font-weight="bold" text-anchor="middle" letter-spacing="1.5">91-XXXX-XXXX-XXXX</text>
+</svg>

@@ -1,0 +1,46 @@
+services:
+
+  web:
+    image: php:8.4-apache
+    container_name: digital_sewa_web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    command: >
+      bash -c "
+      docker-php-ext-install mysqli pdo_mysql &&
+      a2enmod rewrite &&
+      apache2-foreground
+      "
+
+  db:
+    image: mysql:8.0
+    container_name: digital_sewa_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: digital_seva_assam
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: digital_sewa_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ""
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:

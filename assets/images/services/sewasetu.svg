@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sewaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#075985"/>
+    </linearGradient>
+    <linearGradient id="bridgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#sewaBg)"/>
+  <!-- Decorative Gateway / Bridge Arc -->
+  <path d="M22 86 C22 46 98 46 98 86" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.25))"/>
+  <path d="M28 86 C28 54 92 54 92 86" fill="none" stroke="url(#bridgeGrad)" stroke-width="4" stroke-linecap="round"/>
+  <!-- Bridge Suspension / Support Pillars -->
+  <line x1="38" y1="67" x2="38" y2="86" stroke="#ffffff" stroke-width="2"/>
+  <line x1="50" y1="58" x2="50" y2="86" stroke="#ffffff" stroke-width="2"/>
+  <line x1="60" y1="55" x2="60" y2="86" stroke="#ffffff" stroke-width="2"/>
+  <line x1="70" y1="58" x2="70" y2="86" stroke="#ffffff" stroke-width="2"/>
+  <line x1="82" y1="67" x2="82" y2="86" stroke="#ffffff" stroke-width="2"/>
+  <!-- Road / Platform Base -->
+  <rect x="18" y="84" width="84" height="6" rx="3" fill="#ffffff"/>
+  <!-- Government Emblem / Ashoka Sun Crest -->
+  <circle cx="60" cy="36" r="14" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+  <circle cx="60" cy="36" r="11" fill="#f8fafc" stroke="#0284c7" stroke-width="1"/>
+  <!-- 24-spoke stylized chakra / emblem -->
+  <circle cx="60" cy="36" r="4" fill="#0284c7"/>
+  <line x1="60" y1="28" x2="60" y2="44" stroke="#0284c7" stroke-width="1"/>
+  <line x1="52" y1="36" x2="68" y2="36" stroke="#0284c7" stroke-width="1"/>
+  <line x1="54" y1="30" x2="66" y2="42" stroke="#0284c7" stroke-width="1"/>
+  <line x1="54" y1="42" x2="66" y2="30" stroke="#0284c7" stroke-width="1"/>
+  <!-- Badge text SEWA SETU -->
+  <rect x="25" y="94" width="70" height="13" rx="4" fill="#ea580c"/>
+  <text x="60" y="103" fill="#ffffff" font-size="6.5" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" letter-spacing="1">SEWA SETU ASSAM</text>
+</svg>
