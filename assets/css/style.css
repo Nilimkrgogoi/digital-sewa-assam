@@ -1358,6 +1358,75 @@ footer {
     .documents-grid {
         grid-template-columns: 1fr;
     }
+
+    .auth-box {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+        padding: 24px 18px !important;
+        margin: 10px auto !important;
+        border-radius: 16px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06) !important;
+        width: 100% !important;
+    }
+
+    .auth-info {
+        padding-bottom: 20px !important;
+        border-bottom: 1px dashed #cbd5e1 !important;
+    }
+
+    .form-row-2col {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .qr-payment-grid,
+    .qr-payment-grid-dark {
+        grid-template-columns: 1fr !important;
+        text-align: center !important;
+        justify-items: center !important;
+        gap: 14px !important;
+        padding: 14px 12px !important;
+    }
+
+    .qr-payment-grid img,
+    .qr-payment-grid-dark img {
+        margin: 0 auto !important;
+    }
+}
+
+/* Base Utility Classes for Responsive Forms */
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.qr-payment-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: center;
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #fde68a;
+}
+
+.qr-payment-grid-dark {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: center;
+    background: #0b0f19;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    margin-bottom: 12px;
+}
+
+.mobile-verify-group {
+    display: flex;
+    gap: 8px;
 }
 
 @media (max-width: 540px) {
@@ -1385,5 +1454,20 @@ footer {
 
     .tracking-timeline::before {
         display: none;
+    }
+
+    .auth-box {
+        padding: 18px 14px !important;
+        gap: 20px !important;
+        border-radius: 14px !important;
+    }
+
+    .mobile-verify-group {
+        flex-direction: column !important;
+    }
+
+    .mobile-verify-group input,
+    .mobile-verify-group button {
+        width: 100% !important;
     }
 }

@@ -211,6 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <header class="header">
     <div class="container nav">
         <?= logo_html('index.php') ?>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Toggle Navigation">☰</button>
         <nav id="navbar">
             <a href="index.php">Home</a>
             <a href="index.php#services">Services</a>
@@ -343,21 +344,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <!-- MOBILE NUMBER FIELD WITH OTP VERIFICATION -->
                         <div class="form-group" style="margin-bottom: 15px;">
                             <label for="mobile" style="font-weight: 700; font-size: 13px; color: #1e293b;">10-Digit Aadhaar-Linked Mobile Number *</label>
-                            <div style="display: flex; gap: 8px;">
+                            <div class="mobile-verify-group">
                                 <input type="tel" id="mobile" name="mobile" maxlength="10" placeholder="e.g. 9876543210" pattern="[6-9][0-9]{9}" required value="<?= htmlspecialchars($_POST['mobile'] ?? '') ?>" style="flex: 1;" oninput="handleMobileInputChanged()">
-                                <button type="button" id="btnSendOtp" onclick="sendMobileOtp()" class="btn primary sm" style="white-space: nowrap; font-weight: 700; padding: 0 14px;">
+                                <button type="button" id="btnSendOtp" onclick="sendMobileOtp()" class="btn primary sm" style="white-space: nowrap; font-weight: 700; padding: 10px 14px;">
                                     📲 Verify Number
                                 </button>
                             </div>
-                            <small style="font-size: 11px; color: #64748b; display: block; margin-top: 3px;">
+                            <small style="font-size: 11px; color: #64748b; display: block; margin-top: 4px;">
                                 Must be an active 10-digit Indian mobile number registered with your Aadhaar Card.
                             </small>
 
                             <!-- OTP INPUT BOX (Revealed when OTP is sent) -->
                             <div id="otpVerificationBox" style="display: none; margin-top: 10px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px 14px;">
                                 <div id="otpSimulationBanner" style="font-size: 12px; color: #0284c7; font-weight: 700; margin-bottom: 8px;"></div>
-                                <div style="display: flex; gap: 8px; align-items: center;">
-                                    <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-Digit OTP" style="font-family: monospace; font-size: 15px; font-weight: 800; letter-spacing: 2px; width: 150px; text-align: center;">
+                                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                    <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-Digit OTP" style="font-family: monospace; font-size: 15px; font-weight: 800; letter-spacing: 2px; width: 140px; text-align: center; max-width: 100%;">
                                     <button type="button" onclick="verifyMobileOtp()" class="btn success sm" style="font-weight: 700; padding: 8px 14px;">
                                         ✓ Confirm OTP
                                     </button>
@@ -378,7 +379,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </small>
                         </div>
 
-                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                        <div class="form-row-2col" style="margin-bottom: 15px;">
                             <div class="form-group" style="margin: 0;">
                                 <label for="password" style="font-weight: 700; font-size: 13px; color: #1e293b;">Create Password *</label>
                                 <input type="password" id="password" name="password" minlength="6" placeholder="Min. 6 chars" required style="width: 100%;">
@@ -416,10 +417,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     📢 <b>Mandatory Payment:</b> Scan the <b>Dynamic QR Code</b> below with <b>Google Pay, PhonePe, Paytm, or BHIM</b>. The exact fee of <b>₹<?= number_format($platformFee, 2) ?></b> is pre-loaded automatically.
                                 </div>
 
-                                <div style="display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #fde68a;">
+                                <div class="qr-payment-grid">
                                     <div style="text-align: center;">
                                         <div style="display: inline-block; background: white; padding: 10px; border-radius: 10px; border: 2px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
-                                            <img src="<?= htmlspecialchars($dynamicQrCodeSrc) ?>" alt="UPI QR Code" style="width: 175px; height: 175px; object-fit: contain; display: block; background: white;">
+                                            <img src="<?= htmlspecialchars($dynamicQrCodeSrc) ?>" alt="UPI QR Code" style="width: 165px; height: 165px; max-width: 100%; object-fit: contain; display: block; background: white;">
                                         </div>
                                         <div style="margin-top: 8px;">
                                             <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 5px; display: inline-block;">
@@ -431,10 +432,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </small>
                                     </div>
 
-                                    <div style="font-size: 13px; color: #1e293b; line-height: 1.7;">
-                                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
+                                    <div style="font-size: 13px; color: #1e293b; line-height: 1.7; width: 100%;">
+                                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; justify-content: inherit;">
                                             <b>Portal UPI ID:</b> 
-                                            <code style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #0284c7; font-weight: 800; font-size: 13px; border: 1px solid #cbd5e1;"><?= htmlspecialchars($upiId) ?></code>
+                                            <code style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #0284c7; font-weight: 800; font-size: 13px; border: 1px solid #cbd5e1; word-break: break-all;"><?= htmlspecialchars($upiId) ?></code>
                                             <button type="button" onclick="navigator.clipboard.writeText('<?= htmlspecialchars($upiId) ?>'); alert('UPI ID copied: <?= htmlspecialchars($upiId) ?>');" class="btn secondary sm" style="padding: 2px 8px; font-size: 11px; background: white;">
                                                 📋 Copy
                                             </button>
@@ -446,8 +447,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?php endif; ?>
 
                                         <!-- Mobile Direct Pay Button -->
-                                        <div style="margin-top: 10px;">
-                                            <a href="<?= htmlspecialchars($upiPayUri) ?>" class="btn" style="background: #0284c7; color: white; padding: 7px 14px; font-size: 12px; font-weight: 700; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+                                        <div style="margin-top: 12px;">
+                                            <a href="<?= htmlspecialchars($upiPayUri) ?>" class="btn" style="background: #0284c7; color: white; padding: 10px 16px; font-size: 13px; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; width: 100%; box-sizing: border-box; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);">
                                                 📱 Tap to Pay ₹<?= number_format($platformFee, 2) ?> via UPI App
                                             </a>
                                         </div>
@@ -524,7 +525,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="g_mobile" style="font-weight: 700; font-size: 13px; color: #ffffff;">
                         10-Digit Aadhaar-Linked Mobile Number *
                     </label>
-                    <div style="display: flex; gap: 8px;">
+                    <div class="mobile-verify-group">
                         <input type="tel" id="g_mobile" name="mobile" maxlength="10" placeholder="e.g. 9876543210" pattern="[6-9][0-9]{9}" required style="flex: 1; border: 2px solid #3b82f6;">
                         <button type="button" id="g_btnSendOtp" onclick="sendGoogleMobileOtp()" class="btn primary sm" style="white-space: nowrap; font-weight: 700;">
                             📲 Verify
@@ -533,8 +534,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div id="g_otpBox" style="display: none; margin-top: 10px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px 12px;">
                         <div id="g_otpBanner" style="font-size: 12px; color: #38bdf8; font-weight: 700; margin-bottom: 6px;"></div>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <input type="text" id="g_otpInput" maxlength="6" placeholder="Enter 6-digit OTP" style="width: 140px; font-family: monospace; font-weight: 800; text-align: center;">
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <input type="text" id="g_otpInput" maxlength="6" placeholder="Enter 6-digit OTP" style="width: 140px; font-family: monospace; font-weight: 800; text-align: center; max-width: 100%;">
                             <button type="button" onclick="verifyGoogleMobileOtp()" class="btn success sm">✓ Confirm</button>
                         </div>
                     </div>
@@ -556,17 +557,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; background: #0b0f19; padding: 14px; border-radius: 10px; border: 1px solid #334155; margin-bottom: 12px;">
+                        <div class="qr-payment-grid-dark">
                             <div style="text-align: center;">
                                 <div style="display: inline-block; background: white; padding: 6px; border-radius: 8px;">
-                                    <img src="<?= htmlspecialchars($dynamicQrCodeSrc) ?>" alt="Dynamic QR Code" style="width: 125px; height: 125px; object-fit: contain; display: block; background: white;">
+                                    <img src="<?= htmlspecialchars($dynamicQrCodeSrc) ?>" alt="Dynamic QR Code" style="width: 125px; height: 125px; max-width: 100%; object-fit: contain; display: block; background: white;">
                                 </div>
                             </div>
-                            <div style="font-size: 12px; color: #f1f5f9; line-height: 1.6;">
-                                <div><b>UPI ID:</b> <code style="background: #131b2e; padding: 2px 6px; border-radius: 4px; color: #38bdf8; font-weight: 800;"><?= htmlspecialchars($upiId) ?></code></div>
+                            <div style="font-size: 12px; color: #f1f5f9; line-height: 1.6; width: 100%;">
+                                <div><b>UPI ID:</b> <code style="background: #131b2e; padding: 2px 6px; border-radius: 4px; color: #38bdf8; font-weight: 800; word-break: break-all;"><?= htmlspecialchars($upiId) ?></code></div>
                                 <div><b>Acc Holder:</b> <?= htmlspecialchars($bankHolder) ?></div>
                                 <div style="margin-top: 8px;">
-                                    <a href="<?= htmlspecialchars($upiPayUri) ?>" class="btn" style="background: #0284c7; color: white; padding: 5px 10px; font-size: 11px; font-weight: 700; border-radius: 5px; display: inline-flex; align-items: center; gap: 4px; text-decoration: none;">
+                                    <a href="<?= htmlspecialchars($upiPayUri) ?>" class="btn" style="background: #0284c7; color: white; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; text-decoration: none; width: 100%; box-sizing: border-box;">
                                         📱 Tap to Pay ₹<?= number_format($platformFee, 2) ?>
                                     </a>
                                 </div>
@@ -779,5 +780,6 @@ window.addEventListener("click", function(event) {
     }
 });
 </script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>
